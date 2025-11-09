@@ -1,4 +1,4 @@
-# Web Dev Starter Code
+# Bricker Breaker Web Clone, Final Project CS408
 
 ## Project Spec
 
