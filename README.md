@@ -27,13 +27,13 @@ The list of stretch goals include:
 
 ## Project Wireframe
 
-Welcome screen
-<img width="1013" height="644" alt="Screenshot 2025-11-10 at 12 15 44 PM" src="https://github.com/user-attachments/assets/3f2d3680-a70c-4c1f-9c89-f4b3e604caf7" />
+Welcome screen  
+<img width="1013" height="644" alt="Screenshot 2025-11-10 at 12 15 44 PM" src="https://github.com/user-attachments/assets/3f2d3680-a70c-4c1f-9c89-f4b3e604caf7" />  
 
-Play Screen
-<img width="779" height="757" alt="Screenshot 2025-11-10 at 12 14 21 PM" src="https://github.com/user-attachments/assets/5f3d2ff2-d910-4bc0-b998-37f1fe3d3077" />
+Play Screen  
+<img width="779" height="757" alt="Screenshot 2025-11-10 at 12 14 21 PM" src="https://github.com/user-attachments/assets/5f3d2ff2-d910-4bc0-b998-37f1fe3d3077" />  
 
-Leaderboard
-<img width="2066" height="1324" alt="image" src="https://github.com/user-attachments/assets/38b7c805-4278-4dea-9ef2-35c4c1c355ad" />
+Leaderboard  
+<img width="2066" height="1324" alt="image" src="https://github.com/user-attachments/assets/38b7c805-4278-4dea-9ef2-35c4c1c355ad" />  
 
 
