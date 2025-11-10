@@ -34,6 +34,7 @@ Play Screen
 <img width="779" height="757" alt="Screenshot 2025-11-10 at 12 14 21 PM" src="https://github.com/user-attachments/assets/5f3d2ff2-d910-4bc0-b998-37f1fe3d3077" />  
 
 Leaderboard  
-<img width="2066" height="1324" alt="image" src="https://github.com/user-attachments/assets/38b7c805-4278-4dea-9ef2-35c4c1c355ad" />  
+<img width="2054" height="1256" alt="image" src="https://github.com/user-attachments/assets/0ddd8bd9-38b1-4305-82be-2dd566fcebc3" />  
+
 
 
