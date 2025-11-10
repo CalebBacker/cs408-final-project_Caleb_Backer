@@ -27,6 +27,13 @@ The list of stretch goals include:
 
 ## Project Wireframe
 
-TODO: Replace the wireframe below with you own design.
+Welcome screen
+![welcome-screen](<img width="2026" height="1288" alt="image" src="https://github.com/user-attachments/assets/dde06380-261f-4bb0-8dc1-f33fe16eabd4" />
+)
+Play Screen
+![play-screen](<img width="1558" height="1514" alt="image" src="https://github.com/user-attachments/assets/59227ea6-6af8-4d29-8cf1-2d26ec2ef122" />
+)
+Leaderboard
+![Leaderboard](<img width="2066" height="1324" alt="image" src="https://github.com/user-attachments/assets/86da2d7e-c6f2-4516-aeb9-8c9f54bec28b" />
+)
 
-![wireframe](wireframe-example.png)
