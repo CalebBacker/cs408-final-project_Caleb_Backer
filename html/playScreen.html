@@ -1,10 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <title>Brick Breaker - Play</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/playScreen.css" />
 </head>
 <body>
+<header>
+    <h1>Brick Breaker</h1>
+</header>
 
+<main>
+    <section class="top-bar">
+        <p id="hud">Score: 0 &nbsp;&nbsp; Lives: 3 &nbsp;&nbsp; Level: 1</p>
+
+        <div class="nav-buttons">
+            <button
+                    type="button"
+                    class="btn"
+                    onclick="location.href='./index.html';"
+            >
+                Home
+            </button>
+
+            <button
+                    type="button"
+                    class="btn"
+                    onclick="location.href='./leaderboard.html';"
+            >
+                Leaderboard
+            </button>
+        </div>
+    </section>
+
+    <section class="game-container">
+        <canvas></canvas>
+    </section>
+
+    <section class="controls-help">
+        <h2>Controls</h2>
+        <p style ="text-align: left;">
+            Move paddle: <strong>A / D</strong> or <strong>Left / Right Arrow</strong><br />
+            When game over: <strong>Press Enter</strong> to restart.
+        </p>
+    </section>
+</main>
+
+<script src="../js/main.js" defer></script>
 </body>
 </html>

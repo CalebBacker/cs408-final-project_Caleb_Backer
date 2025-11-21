@@ -1,10 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <title>Brick Breaker - Leaderboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/leaderboard.css" />
 </head>
 <body>
+<header>
+    <h1>Brick Breaker</h1>
+</header>
 
+<main>
+    <section class="leaderboard-header">
+        <h2>Global Leaderboard</h2>
+        <p>
+            Scores shown here are placeholder data for now. Later, this table will be
+            populated from AWS with real player scores.
+        </p>
+
+        <div class="nav-buttons">
+            <button
+                    type="button"
+                    class="btn"
+                    onclick="location.href='./index.html';"
+            >
+                Home
+            </button>
+
+            <button
+                    type="button"
+                    class="btn"
+                    onclick="location.href='./playScreen.html';"
+            >
+                Play Game
+            </button>
+        </div>
+    </section>
+
+    <section class="leaderboard-table">
+        <table>
+            <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Player</th>
+                <th>Score</th>
+                <th>Level Reached</th>
+            </tr>
+            </thead>
+            <tbody id="leaderboard-body">
+            <!-- Placeholder rows; replace with dynamic AWS data later -->
+            <tr>
+                <td>1</td>
+                <td>Alice</td>
+                <td>12000</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Bob</td>
+                <td>9500</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Carol</td>
+                <td>8700</td>
+                <td>4</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="leaderboard-notes">
+        <h3>Coming Soon</h3>
+        <ul>
+            <li>Real-time global leaderboard backed by AWS.</li>
+            <li>Ability to submit your score after each game.</li>
+            <li>Potential support for user accounts and custom levels.</li>
+        </ul>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2025 Brick Breaker</p>
+</footer>
+
+<!-- Later you can add leaderboard.js for AWS calls -->
+<!-- <script src="../js/leaderboard.js" defer></script> -->
 </body>
 </html>

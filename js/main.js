@@ -4,8 +4,8 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
-const width = (canvas.width = window.innerWidth);
-const height = (canvas.height = window.innerHeight);
+const width = (canvas.width = Math.min(window.innerWidth * 0.9, 1000));
+const height = (canvas.height = Math.min(window.innerHeight * 0.6, 600));
 
 // =========================
 // Helpers
@@ -18,9 +18,7 @@ function randomRGB() {
     return `rgb(${random(50, 255)},${random(50, 255)},${random(50, 255)})`;
 }
 
-// =========================
-// Base Shape
-// =========================
+// Base Shape generic shape class
 class Shape {
     constructor(x, y, velX, velY) {
         this.x = x;
@@ -30,9 +28,8 @@ class Shape {
     }
 }
 
-// =========================
-// Ball
-// =========================
+
+// Ball class
 class Ball extends Shape {
     constructor(x, y, velX, velY, color, size) {
         super(x, y, velX, velY);
@@ -66,9 +63,7 @@ class Ball extends Shape {
     }
 }
 
-// =========================
-// Paddle (replaces EvilCircle)
-// =========================
+// Paddle (updated EvilCircle)
 class Paddle extends Shape {
     constructor() {
         const paddleWidth = 120;
@@ -76,7 +71,8 @@ class Paddle extends Shape {
         const startX = width / 2 - paddleWidth / 2;
         const startY = height - 40; // near bottom
 
-        super(startX, startY, 10, 0); // velX = move speed, velY unused
+        // velX = move speed, velY unused
+        super(startX, startY, 10, 0);
 
         this.width = paddleWidth;
         this.height = paddleHeight;
@@ -102,9 +98,8 @@ class Paddle extends Shape {
     }
 }
 
-// =========================
-// Brick
-// =========================
+
+// Bricks
 class Brick {
     constructor(x, y, w, h, color) {
         this.x = x;
@@ -122,9 +117,8 @@ class Brick {
     }
 }
 
-// =========================
+
 // Game State
-// =========================
 let ball;
 let paddle;
 let bricks = [];
@@ -133,7 +127,8 @@ let score = 0;
 let lives = 3;
 let gameOver = false;
 
-const scoreDisplay = document.querySelector("p");
+const scoreDisplay = document.getElementById("hud");
+
 
 // input state for paddle movement
 const inputState = {
@@ -141,9 +136,8 @@ const inputState = {
     right: false,
 };
 
-// =========================
+
 // Input Handling
-// =========================
 window.addEventListener("keydown", (e) => {
     if (e.key === "a" || e.key === "ArrowLeft") {
         inputState.left = true;
@@ -167,9 +161,8 @@ window.addEventListener("keyup", (e) => {
     }
 });
 
-// =========================
+
 // Level / Game Setup
-// =========================
 function createBricksForLevel(levelNumber) {
     bricks = [];
 
@@ -193,7 +186,7 @@ function createBricksForLevel(levelNumber) {
 }
 
 function resetBallAndPaddle() {
-    const ballSpeed = 5 + level; // slightly faster each level
+    const ballSpeed = 3 + level * 0.5; // slightly faster each level
     ball = new Ball(
         width / 2,
         height - 80,
@@ -216,9 +209,7 @@ function resetGame() {
 
 resetGame();
 
-// =========================
 // Collision Helpers
-// =========================
 function handlePaddleCollision() {
     // AABB vs circle simple check
     const withinX =
@@ -232,7 +223,7 @@ function handlePaddleCollision() {
 
         // tweak X velocity based on where ball hits paddle
         const hitPos = (ball.x - (paddle.x + paddle.width / 2)) / (paddle.width / 2);
-        ball.velX += hitPos * 2; // small horizontal "english"
+        ball.velX += hitPos * 2;
     }
 }
 
@@ -264,9 +255,7 @@ function handleBrickCollisions() {
     }
 }
 
-// =========================
 // Main Loop
-// =========================
 function updateHUD() {
     scoreDisplay.textContent = `Score: ${score}  Lives: ${lives}  Level: ${level}`;
 }

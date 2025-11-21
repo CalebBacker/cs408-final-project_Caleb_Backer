@@ -1,0 +1,18 @@
+.leaderboard-header {
+    position: relative;
+    padding: 1.5rem 1rem;
+}
+
+.leaderboard-header h2 {
+    margin: 0 0 0.5rem 0;  /* space under the heading */
+    line-height: 1.2;
+    position: static;       /* cancel any absolute/fixed from global styles */
+    display: block;
+}
+
+.leaderboard-header p {
+    margin: 0.25rem 0 1rem 0;
+    line-height: 1.4;
+    position: static;       /* cancel any weird positioning */
+    display: block;
+}

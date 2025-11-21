@@ -1,17 +1,60 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>Bouncing balls</title>
-  <link rel="stylesheet" href="../css/style.css">
+  <meta charset="UTF-8" />
+  <title>Brick Breaker - Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../css/style.css" />
 </head>
-
 <body>
-<h1>bouncing balls</h1>
-<p>ball Counts: </p>
-<canvas></canvas>
+<header>
+  <h1>Brick Breaker</h1>
+</header>
 
-<script src="../js/main.js"></script>
+<main>
+  <section class="intro">
+    <h2>Welcome!</h2>
+    <p>
+      Brick Breaker is a simple web game where you bounce a ball off your paddle
+      to destroy all the bricks. Clear all the bricks to advance to the next level,
+      rack up points, and compete on the global leaderboard (coming soon via AWS).
+    </p>
+  </section>
+
+  <section class="menu">
+    <h2>Main Menu</h2>
+    <div class="menu-buttons">
+      <button
+              type="button"
+              class="btn"
+              onclick="location.href='./playScreen.html';"
+      >
+        Play Game
+      </button>
+
+      <button
+              type="button"
+              class="btn"
+              onclick="location.href='./leaderboard.html';"
+      >
+        View Leaderboard
+      </button>
+    </div>
+  </section>
+
+  <section class="how-to-play">
+    <h2>How to Play</h2>
+    <ul>
+      <li>Use <strong>A / D</strong> or <strong>Left / Right Arrow</strong> keys to move the paddle.</li>
+      <li>Keep the ball in play and break all the bricks to advance levels.</li>
+      <li>You have a limited number of lives. If you lose them all, it's game over.</li>
+      <li>After the game is over, you’ll be able to submit your score to the leaderboard (AWS integration later).</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <p>&copy; 2025 Brick Breaker</p>
+</footer>
 </body>
 </html>
