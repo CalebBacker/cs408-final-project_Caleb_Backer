@@ -1,24 +1,26 @@
-// set up canvas
-
+// =========================
+// Canvas Setup
+// =========================
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
 const width = (canvas.width = window.innerWidth);
 const height = (canvas.height = window.innerHeight);
 
-// function to generate random number
-
+// =========================
+// Helpers
+// =========================
 function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// function to generate random RGB color value
-
 function randomRGB() {
-    return `rgb(${random(0, 255)},${random(0, 255)},${random(0, 255)})`;
+    return `rgb(${random(50, 255)},${random(50, 255)},${random(50, 255)})`;
 }
 
-
+// =========================
+// Base Shape
+// =========================
 class Shape {
     constructor(x, y, velX, velY) {
         this.x = x;
@@ -28,15 +30,14 @@ class Shape {
     }
 }
 
-class Ball  extends Shape {
-
-    exists;
-
+// =========================
+// Ball
+// =========================
+class Ball extends Shape {
     constructor(x, y, velX, velY, color, size) {
         super(x, y, velX, velY);
         this.color = color;
         this.size = size;
-        this.exists = true;
     }
 
     draw() {
@@ -47,18 +48,15 @@ class Ball  extends Shape {
     }
 
     update() {
+        // Bounce off left and right walls
         if (this.x + this.size >= width) {
             this.velX = -Math.abs(this.velX);
         }
-
         if (this.x - this.size <= 0) {
             this.velX = Math.abs(this.velX);
         }
 
-        if (this.y + this.size >= height) {
-            this.velY = -Math.abs(this.velY);
-        }
-
+        // Bounce off top
         if (this.y - this.size <= 0) {
             this.velY = Math.abs(this.velY);
         }
@@ -66,140 +64,255 @@ class Ball  extends Shape {
         this.x += this.velX;
         this.y += this.velY;
     }
-
-    collisionDetect() {
-
-        if (this.exists) {
-            for (const ball of balls) {
-                if (!(this === ball)) {
-                    const dx = this.x - ball.x;
-                    const dy = this.y - ball.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-
-                    if (distance < this.size + ball.size) {
-                        ball.color = this.color = randomRGB();
-                    }
-                }
-            }
-        }
-    }
 }
 
+// =========================
+// Paddle (replaces EvilCircle)
+// =========================
+class Paddle extends Shape {
+    constructor() {
+        const paddleWidth = 120;
+        const paddleHeight = 20;
+        const startX = width / 2 - paddleWidth / 2;
+        const startY = height - 40; // near bottom
 
-class EvilCircle extends Shape {
+        super(startX, startY, 10, 0); // velX = move speed, velY unused
 
-    exists;
-    constructor(x, y) {
-        super(x, y, 20, 20);
+        this.width = paddleWidth;
+        this.height = paddleHeight;
         this.color = "white";
-        this.size = 25;
-
-        window.addEventListener("keydown", (e) => {
-            switch (e.key) {
-                case "a":
-                    this.x -= this.velX;
-                    break;
-                case "d":
-                    this.x += this.velX;
-                    break;
-                case "w":
-                    this.y -= this.velY;
-                    break;
-                case "s":
-                    this.y += this.velY;
-                    break;
-            }
-        });
     }
 
     draw() {
-        ctx.beginPath();
-        ctx.strokeStyle = this.color;
-        ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
-        ctx.lineWidth = 3;
-        ctx.stroke();
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 
-    checkBounds() {
-        if (this.x + this.size >= width) {
-            this.x = width - this.size;
+    update(inputState) {
+        if (inputState.left) {
+            this.x -= this.velX;
+        }
+        if (inputState.right) {
+            this.x += this.velX;
         }
 
-        if (this.x - this.size <= 0) {
-            this.x = this.size;
-        }
+        // Keep paddle on screen
+        if (this.x < 0) this.x = 0;
+        if (this.x + this.width > width) this.x = width - this.width;
+    }
+}
 
-        if (this.y + this.size >= height) {
-            this.y = height - this.size;
-        }
-
-        if (this.y - this.size <= 0) {
-            this.y = this.size;
-        }
+// =========================
+// Brick
+// =========================
+class Brick {
+    constructor(x, y, w, h, color) {
+        this.x = x;
+        this.y = y;
+        this.width = w;
+        this.height = h;
+        this.color = color;
+        this.destroyed = false;
     }
 
-    collisionDetect() {
-        for (const ball of balls) {
-            if (ball.exists) {
-                const dx = this.x - ball.x;
-                const dy = this.y - ball.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
+    draw() {
+        if (this.destroyed) return;
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+}
 
-                if (distance < this.size + ball.size) {
-                    ball.exists = false;
-                }
-            }
+// =========================
+// Game State
+// =========================
+let ball;
+let paddle;
+let bricks = [];
+let level = 1;
+let score = 0;
+let lives = 3;
+let gameOver = false;
+
+const scoreDisplay = document.querySelector("p");
+
+// input state for paddle movement
+const inputState = {
+    left: false,
+    right: false,
+};
+
+// =========================
+// Input Handling
+// =========================
+window.addEventListener("keydown", (e) => {
+    if (e.key === "a" || e.key === "ArrowLeft") {
+        inputState.left = true;
+    }
+    if (e.key === "d" || e.key === "ArrowRight") {
+        inputState.right = true;
+    }
+
+    // Simple restart when game over
+    if (gameOver && e.key === "Enter") {
+        resetGame();
+    }
+});
+
+window.addEventListener("keyup", (e) => {
+    if (e.key === "a" || e.key === "ArrowLeft") {
+        inputState.left = false;
+    }
+    if (e.key === "d" || e.key === "ArrowRight") {
+        inputState.right = false;
+    }
+});
+
+// =========================
+// Level / Game Setup
+// =========================
+function createBricksForLevel(levelNumber) {
+    bricks = [];
+
+    const rows = 3 + levelNumber - 1; // level 1 = 3 rows, level 2 = 4, etc
+    const cols = 10;
+    const padding = 10;
+    const offsetTop = 60;
+    const offsetLeft = 40;
+
+    const totalPadding = padding * (cols - 1) + offsetLeft * 2;
+    const brickWidth = (width - totalPadding) / cols;
+    const brickHeight = 25;
+
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+            const x = offsetLeft + col * (brickWidth + padding);
+            const y = offsetTop + row * (brickHeight + padding);
+            bricks.push(new Brick(x, y, brickWidth, brickHeight, randomRGB()));
         }
     }
 }
 
-
-//score counter
-let count = 0;
-const score = document.querySelector("p");
-setInterval(() => {
-    count = balls.filter((ball) => ball.exists).length;
-    score.textContent = `Ball count: ${count}`;
-}, 100);
-
-// create an array to store balls
-
-const balls = [];
-
-while (balls.length < 25) {
-    const size = random(10, 20);
-    const ball = new Ball(
-        // ball position always drawn at least one ball width
-        // away from the edge of the canvas, to avoid drawing errors
-        random(0 + size, width - size),
-        random(0 + size, height - size),
-        random(-7, 3),
-        random(-7, 3),
-        randomRGB(),
-        size
+function resetBallAndPaddle() {
+    const ballSpeed = 5 + level; // slightly faster each level
+    ball = new Ball(
+        width / 2,
+        height - 80,
+        ballSpeed * (Math.random() < 0.5 ? -1 : 1),
+        -ballSpeed,
+        "white",
+        10
     );
-
-    balls.push(ball);
+    paddle = new Paddle();
 }
-const player = new EvilCircle(0, 0);
 
+function resetGame() {
+    level = 1;
+    score = 0;
+    lives = 3;
+    gameOver = false;
+    createBricksForLevel(level);
+    resetBallAndPaddle();
+}
+
+resetGame();
+
+// =========================
+// Collision Helpers
+// =========================
+function handlePaddleCollision() {
+    // AABB vs circle simple check
+    const withinX =
+        ball.x + ball.size > paddle.x && ball.x - ball.size < paddle.x + paddle.width;
+    const withinY =
+        ball.y + ball.size > paddle.y && ball.y - ball.size < paddle.y + paddle.height;
+
+    if (withinX && withinY && ball.velY > 0) {
+        // bounce up
+        ball.velY = -Math.abs(ball.velY);
+
+        // tweak X velocity based on where ball hits paddle
+        const hitPos = (ball.x - (paddle.x + paddle.width / 2)) / (paddle.width / 2);
+        ball.velX += hitPos * 2; // small horizontal "english"
+    }
+}
+
+function handleBrickCollisions() {
+    for (const brick of bricks) {
+        if (brick.destroyed) continue;
+
+        const withinX =
+            ball.x + ball.size > brick.x &&
+            ball.x - ball.size < brick.x + brick.width;
+        const withinY =
+            ball.y + ball.size > brick.y &&
+            ball.y - ball.size < brick.y + brick.height;
+
+        if (withinX && withinY) {
+            brick.destroyed = true;
+            score += 10;
+            // Simple bounce: flip vertical velocity
+            ball.velY = -ball.velY;
+            break; // prevent multiple bricks in one frame
+        }
+    }
+
+    // If all bricks destroyed, go to next level
+    if (bricks.every((b) => b.destroyed)) {
+        level++;
+        createBricksForLevel(level);
+        resetBallAndPaddle();
+    }
+}
+
+// =========================
+// Main Loop
+// =========================
+function updateHUD() {
+    scoreDisplay.textContent = `Score: ${score}  Lives: ${lives}  Level: ${level}`;
+}
 
 function loop() {
-
-    ctx.fillStyle = "rgba(0, 0, 0, 0.25)";
+    ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
     ctx.fillRect(0, 0, width, height);
 
-    for (const ball of balls) {
-        if (ball.exists) {
-            ball.draw();
-            ball.update();
-            ball.collisionDetect();
+    if (!gameOver) {
+        // Update objects
+        paddle.update(inputState);
+        ball.update();
+
+        // Ball off bottom = lose life
+        if (ball.y - ball.size > height) {
+            lives--;
+            if (lives <= 0) {
+                gameOver = true;
+            } else {
+                resetBallAndPaddle();
+            }
         }
-        player.draw();
-        player.checkBounds();
-        player.collisionDetect();
+
+        // Collisions
+        handlePaddleCollision();
+        handleBrickCollisions();
+
+        // Draw bricks
+        for (const brick of bricks) {
+            brick.draw();
+        }
+
+        // Draw paddle and ball
+        paddle.draw();
+        ball.draw();
+    } else {
+        // Game over screen
+        ctx.fillStyle = "white";
+        ctx.font = "48px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("GAME OVER", width / 2, height / 2 - 20);
+        ctx.font = "24px sans-serif";
+        ctx.fillText("Press Enter to Restart", width / 2, height / 2 + 20);
     }
 
+    updateHUD();
     requestAnimationFrame(loop);
 }
 
