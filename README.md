@@ -2,7 +2,7 @@
 
 ## Project Spec
 
-The General theme of this application projec will be a simple brick breaker clone. It will take logic form the previous lab with the bouncing balls and greatly expand it with the funcitonality of the game brick breaker. You will be able to move your character along the bottom of the screen to catch a single ball, that will bounce around making contact with and destroying blocks. Once all the blocks are clear you can continue to the next level and your score increases. You have a limited amount of lives, and the game is over once you lose them all. Its intent is to be a simple web game.
+The General theme of this application project will be a simple brick breaker clone. It will take logic form the previous lab with the bouncing balls and greatly expand it with the funcitonality of the game brick breaker. You will be able to move your character along the bottom of the screen to catch a single ball, that will bounce around making contact with and destroying blocks. Once all the blocks are clear you can continue to the next level and your score increases. You have a limited amount of lives, and the game is over once you lose them all. Its intent is to be a simple web game.
 
 The game will be built with AWS and javascript on the backend. AWS will handle the data management, such as the high scores. Javascript will be used to control the game objects and game logic. For the front end html and css will be used to create and style the actual website and game graphics.
 
