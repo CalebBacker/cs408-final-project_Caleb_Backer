@@ -1,18 +1,262 @@
+/* Global layout */
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+    background: radial-gradient(circle at top, #1b2838 0%, #000 55%, #000 100%);
+    color: #f5f7ff;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    max-width: 960px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 2rem;
+}
+
+/* Header*/
+header {
+    padding: 0.75rem 1rem;
+    background: #050814;
+    border-bottom: 1px solid #222a3a;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    text-align: center;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
 .leaderboard-header {
     position: relative;
-    padding: 1.5rem 1rem;
+    padding: 1.5rem 1.25rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.25rem;
+    background: linear-gradient(135deg, #0c1220 0%, #050814 55%, #0a1b30 100%);
+    border-radius: 12px;
+    border: 1px solid #374a6a;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
 }
 
 .leaderboard-header h2 {
-    margin: 0 0 0.5rem 0;  /* space under the heading */
+    margin: 0 0 0.5rem 0;
     line-height: 1.2;
-    position: static;       /* cancel any absolute/fixed from global styles */
-    display: block;
+    font-size: 1.6rem;
 }
 
 .leaderboard-header p {
     margin: 0.25rem 0 1rem 0;
-    line-height: 1.4;
-    position: static;       /* cancel any weird positioning */
-    display: block;
+    line-height: 1.5;
+    max-width: 38rem;
+    color: #c5d3ff;
+}
+
+/* Nav buttons inside header */
+.nav-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+/* Buttons */
+button.btn,
+button.btn-delete {
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    border: 1px solid #3498db;
+    background: #3498db;
+    color: #fff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    transition:
+            background 0.15s ease,
+            border-color 0.15s ease,
+            transform 0.05s ease,
+            box-shadow 0.15s ease;
+}
+
+button.btn:hover,
+button.btn:focus-visible {
+    background: #2980b9;
+    border-color: #2980b9;
+    box-shadow: 0 0 12px rgba(41, 128, 185, 0.8);
+    transform: translateY(-1px);
+}
+
+button.btn:active,
+button.btn-delete:active {
+    transform: translateY(1px);
+}
+
+button.btn-delete {
+    background: #e74c3c;
+    border-color: #e74c3c;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.8rem;
+}
+
+button.btn-delete:hover,
+button.btn-delete:focus-visible {
+    background: #c0392b;
+    border-color: #c0392b;
+    box-shadow: 0 0 12px rgba(231, 76, 60, 0.8);
+}
+
+button.btn.danger {
+    background: #e74c3c;
+    border-color: #e74c3c;
+}
+
+button.btn.danger:hover,
+button.btn.danger:focus-visible {
+    background: #c0392b;
+    border-color: #c0392b;
+}
+
+/* Leaderboard table */
+.leaderboard-table {
+    margin-top: 1rem;
+    background: rgba(5, 8, 20, 0.9);
+    border-radius: 12px;
+    border: 1px solid #222a3a;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.85);
+    padding: 1rem;
+    overflow-x: auto;
+}
+
+.leaderboard-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.leaderboard-table thead {
+    background: linear-gradient(135deg, #1f3a5f 0%, #152238 100%);
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.leaderboard-table th {
+    font-weight: 600;
+    color: #f5f7ff;
+    border-bottom: 1px solid #2f3b55;
+}
+
+.leaderboard-table tbody tr {
+    transition: background 0.12s ease, transform 0.05s ease;
+}
+
+.leaderboard-table tbody tr:nth-child(odd) {
+    background: rgba(15, 22, 40, 0.8);
+}
+
+.leaderboard-table tbody tr:nth-child(even) {
+    background: rgba(10, 16, 30, 0.9);
+}
+
+.leaderboard-table tbody tr:hover {
+    background: rgba(38, 80, 140, 0.9);
+    transform: translateY(-1px);
+}
+
+.leaderboard-table td:first-child,
+.leaderboard-table th:first-child {
+    text-align: center;
+    width: 3rem;
+}
+
+.leaderboard-table td:last-child,
+.leaderboard-table th:last-child {
+    text-align: center;
+}
+
+.leaderboard-table td[colspan] {
+    text-align: center;
+    color: #c5d3ff;
+}
+
+/* Notes */
+.leaderboard-notes {
+    margin-top: 1.5rem;
+    padding: 1rem 1.25rem;
+    background: rgba(5, 8, 20, 0.85);
+    border-radius: 10px;
+    border: 1px dashed #374a6a;
+}
+
+.leaderboard-notes h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.leaderboard-notes ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    font-size: 0.9rem;
+    color: #c5d3ff;
+}
+
+.leaderboard-notes li {
+    margin-bottom: 0.25rem;
+}
+
+/* Footer */
+footer {
+    padding: 0.75rem 1rem;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #a0a8c0;
+    background: #050814;
+    border-top: 1px solid #222a3a;
+}
+
+@media (max-width: 600px) {
+    main {
+        padding: 1rem 0.75rem 1.5rem;
+    }
+
+    .leaderboard-header {
+        padding: 1.25rem 1rem;
+    }
+
+    .leaderboard-header h2 {
+        font-size: 1.4rem;
+    }
+
+    header h1 {
+        font-size: 1.4rem;
+    }
+
+    .nav-buttons {
+        justify-content: flex-start;
+    }
+
+    .leaderboard-table table {
+        font-size: 0.85rem;
+    }
 }

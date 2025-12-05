@@ -14,10 +14,6 @@
 <main>
     <section class="leaderboard-header">
         <h2>Global Leaderboard</h2>
-        <p>
-            Scores shown here are placeholder data for now. Later, this table will be
-            populated from AWS with real player scores.
-        </p>
 
         <div class="nav-buttons">
             <button
@@ -46,29 +42,13 @@
                 <th>Player</th>
                 <th>Score</th>
                 <th>Level Reached</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody id="leaderboard-body">
-            <!-- Placeholder rows; replace with dynamic AWS data later -->
-            <tr>
-                <td>1</td>
-                <td>Alice</td>
-                <td>12000</td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Bob</td>
-                <td>9500</td>
-                <td>4</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Carol</td>
-                <td>8700</td>
-                <td>4</td>
-            </tr>
+            <!-- Filled dynamically -->
             </tbody>
+
         </table>
     </section>
 
@@ -86,7 +66,8 @@
     <p>&copy; 2025 Brick Breaker</p>
 </footer>
 
-<!-- Later you can add leaderboard.js for AWS calls -->
-<!-- <script src="../js/leaderboard.js" defer></script> -->
+<script src="../js/api.js" defer></script>
+<script src="../js/leaderboard.js" defer></script>
+
 </body>
 </html>

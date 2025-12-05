@@ -1,15 +1,11 @@
-// =========================
 // Canvas Setup
-// =========================
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
 const width = (canvas.width = Math.min(window.innerWidth * 0.9, 1000));
 const height = (canvas.height = Math.min(window.innerHeight * 0.6, 600));
 
-// =========================
 // Helpers
-// =========================
 function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -221,7 +217,7 @@ function handlePaddleCollision() {
         // bounce up
         ball.velY = -Math.abs(ball.velY);
 
-        // tweak X velocity based on where ball hits paddle
+        // change X velocity based on where ball hits paddle
         const hitPos = (ball.x - (paddle.x + paddle.width / 2)) / (paddle.width / 2);
         ball.velX += hitPos * 2;
     }
@@ -241,9 +237,8 @@ function handleBrickCollisions() {
         if (withinX && withinY) {
             brick.destroyed = true;
             score += 10;
-            // Simple bounce: flip vertical velocity
             ball.velY = -ball.velY;
-            break; // prevent multiple bricks in one frame
+            break;
         }
     }
 
@@ -260,6 +255,26 @@ function updateHUD() {
     scoreDisplay.textContent = `Score: ${score}  Lives: ${lives}  Level: ${level}`;
 }
 
+function handleGameOverAWS() {
+    if (typeof submitScore !== "function") {
+        console.warn("submitScore() is not available. Did you include api.js?");
+        return;
+    }
+
+    const defaultName = "Player";
+    const playerName = prompt(
+        "GAME OVER!\nEnter your name for the leaderboard:",
+        defaultName
+    );
+
+    if (playerName && playerName.trim() !== "") {
+        submitScore(playerName.trim(), score)
+            .catch((err) => console.error("Error submitting score:", err));
+    }
+}
+
+
+
 function loop() {
     ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
     ctx.fillRect(0, 0, width, height);
@@ -274,6 +289,7 @@ function loop() {
             lives--;
             if (lives <= 0) {
                 gameOver = true;
+                handleGameOverAWS(); // <- NEW: save score to AWS
             } else {
                 resetBallAndPaddle();
             }
